@@ -1,0 +1,411 @@
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+span.cf7p-error-msg,
+th.cf7p-error-msg {
+    color: red;
+}
+
+input.cf7p_error {
+    border-color: red;
+}
+
+.cf7p_polls_table h3 {
+    margin: 0;
+}
+
+label.cf7p-switch {
+    cursor: pointer;
+}
+
+label.cf7p-switch {
+    position: relative;
+    display: inline-block;
+    width: 54px;
+    height: 22px;
+}
+
+label.cf7p-switch input[type="checkbox"] {
+    display: none;
+}
+
+label.cf7p-switch input:checked+.cf7p-slider {
+    background-color: #2196f3;
+}
+
+input.cf7p-checkbox:checked+.cf7p-slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(36px);
+}
+
+.cf7p-slider {
+    border-radius: 20px;
+    box-shadow: 2px 2px 30px rgb(0 0 0 / 20%);
+}
+
+.cf7p-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+.cf7p-slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 0;
+    bottom: 0px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+#cf7p_polls .form-table th {
+    width: 200px;
+}
+
+.cf7p-loader span.loader {
+    visibility: hidden;
+    position: absolute;
+    top: 50%;
+    right: -35px;
+    background-color: #000;
+    opacity: 0.6;
+    width: 24px;
+    height: 24px;
+    border: none;
+    border-radius: 100%;
+    padding: 0;
+    transform: translate(0, -50%) scale(0.75);
+}
+
+.cf7p-loader span.loader:after {
+    content: "";
+    position: absolute;
+    background-color: #fbfbfc;
+    top: 4px;
+    left: 4px;
+    width: 6px;
+    height: 6px;
+    border: none;
+    border-radius: 100%;
+    transform-origin: 8px 8px;
+    animation-name: spin;
+    animation-duration: 1000ms;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.cf7p-loader {
+    position: relative;
+}
+
+.cf7p_polls_table td {
+    padding: 0;
+    margin-inline: 6px;
+    padding-bottom: 10px;
+    padding-right: 15px;
+}
+
+table.cf7p_polls_table {
+    margin-bottom: 20px;
+}
+
+#cf7p_all_polls label {
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 11px;
+    display: block;
+}
+
+#cf7p_all_polls input,
+#cf7p_all_polls select {
+    width: 100%;
+    height: 34px;
+    border-radius: 6px;
+}
+
+.cf7p_polls_table thead tr th span {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#cf7p_all_polls input,
+#cf7p_all_polls select {
+    width: 100%;
+    height: 34px;
+    border-radius: 6px;
+}
+
+.cf7p_polls_table thead tr th span {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cf7p_remove_field svg {
+    width: 18px;
+    height: 18px;
+}
+
+.cf7p_remove_field {
+    display: flex;
+    align-items: center;
+    height: 35px;
+    border-radius: 5px;
+    background: #fff;
+    border: none;
+    padding-inline: 12px;
+    cursor: pointer;
+    box-shadow: 4px 4px 30px rgba(0, 0, 0, 0.05);
+    transition: 0.3s;
+}
+
+.cf7p_remove_field svg path {
+    fill: #e53f3f;
+}
+
+.cf7p_remove_field:hover {
+    background: #e53f3f;
+}
+
+.cf7p_remove_field:hover svg path {
+    fill: #ffffff;
+}
+
+.cf7p_polls_btn {
+    max-width: 470px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cf7p_polls_btn .btn {
+    min-width: 130px;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    outline: none !important;
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.cf7p_polls_btn .btn-success:hover {
+    border: 1px solid #63b762;
+    background-color: #fff;
+}
+
+.cf7p_polls_btn .btn-success:hover svg .cls-1 {
+    stroke: #63b762;
+}
+
+.cf7p_polls_btn .btn-success:hover .cf7p_btn_text {
+    color: #63b762;
+}
+
+.cf7p_polls_btn .btn-success {
+    background: #63b762;
+}
+
+.cf7p_polls_btn .btn-success svg .cls-1 {
+    fill: none;
+    stroke: #fff;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 4px;
+    transition: 0.3s;
+}
+
+.cf7p_polls_btn .btn-success svg {
+    width: 25px;
+    height: 25px;
+}
+
+.cf7p_polls_btn button#cf7p_remove_all {
+    background: #ed5252;
+}
+
+.cf7p_polls_btn button#cf7p_remove_all svg path {
+    fill: #fff;
+    transition: .3s;
+}
+
+.cf7p_polls_btn button#cf7p_remove_all:hover svg path {
+    fill: #ed5252;
+}
+
+.cf7p_polls_btn .btn .cf7p_btn_text {
+    margin-left: 5px;
+    transition: 0.3s;
+}
+
+.cf7p_polls_btn button#cf7p_remove_all:hover {
+    background: #fff !important;
+    color: #ed5252 !important;
+    border: 1px solid #ed5252;
+}
+
+#cf7p_polls .form-table input[type="radio"] {
+    margin-right: 6px;
+}
+
+.form-element.cf7p-calender img {
+    position: absolute;
+    width: 16px;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.form-element.cf7p-calender {
+    position: relative;
+    display: inline-block;
+}
+
+.cf7p-hide-fields {
+    display: none;
+}
+
+#cf7p_polls .cf7p-note {
+    margin-top: 7px;
+}
+
+#cf7p_polls .cf7p-poll-note.cf7p-note {
+    margin-top: 18px;
+}
+
+#cf7p_polls .form-table td label {
+    font-size: 14px;
+    position: relative;
+    top: -1px;
+    margin-right: 10px;
+}
+
+#cf7p_polls .cf7p_polls_table th {
+    padding-top: 0 !important;
+}
+
+#cf7p_polls .form-table th,
+#cf7p_polls .form-table td {
+    padding-top: 10px;
+}
+
+#cf7p_polls table.form-table {
+    margin-top: 20px;
+}
+
+#cf7p_polls input[type="checkbox"],
+#cf7p_polls input[type="radio"] {
+    margin-right: 8px;
+}
+
+#cf7p_polls .cf7p_result_btn_shortcode input {
+    width: 200px;
+    text-align: center;
+}
+
+#cf7p_polls .cf7p-row td,
+#cf7p_polls .cf7p-row th {
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+
+/* Poll Result CSS */
+
+.widget_block .cf7p-poll-votes .cf7p-hide-fields,
+.cf7p-div .cf7p-poll-votes .cf7p-hide-fields {
+    display: none;
+}
+
+.cf7p-div .cf7p-poll-bg {
+    position: relative;
+    min-height: 12px;
+    margin: 10px 0;
+    background: #2196f343;
+    border-radius: 3px;
+    width: 80%;
+    max-width: 80%;
+    overflow: hidden;
+}
+
+.cf7p-div .cf7p-poll-votes {
+    font-size: 13px;
+    margin-left: 20px;
+    max-width: 20%;
+    width: 20%;
+    text-align: right;
+}
+
+.cf7p-div .cf7p-choice-poll {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cf7p-choice-poll.cf7p-poll-only .cf7p-poll-bg {
+    width: 100%;
+    max-width: 100%;
+}
+
+.cf7p-div ul,
+.widget .cf7p-div ul {
+    padding: 0 !important;
+    list-style: none;
+    margin: 0 !important;
+}
+
+.cf7p-div .cf7p-poll-bar {
+    width: 100%;
+    min-height: inherit;
+    background: #2196f3;
+}
+
+.cf7p-div ul li:not(ul li ul li),
+.widget_block .cf7p-div ul li:not(ul li ul li) {
+    margin-bottom: 40px !important;
+    border: 1px solid #bdbdbd;
+    border-radius: 5px;
+    list-style: none;
+}
+
+.cf7p-div ul li ul li {
+    border-top: 1px solid #bdbdbd;
+    padding: 14px 25px !important;
+    margin: 0;
+    list-style: none;
+}
+
+.cf7p-div ul li h3 {
+    margin: 0;
+    padding: 18px 20px;
+    line-height: 1.4;
+    text-align: center;
+    font-size: 22px;
+}
+
+.cf7p-div .cf7p-poll-name {
+    line-height: 1.2;
+    text-transform: capitalize;
+    font-weight: 500;
+}
