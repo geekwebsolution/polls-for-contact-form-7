@@ -17,12 +17,14 @@ if (!class_exists('cf7p_settings')) {
             $contact_form   = WPCF7_ContactForm::get_current();
             $form_id        = $contact_form->id();
             $cf7p_option    = get_option('cf7p_' . $form_id);
-            $cf7p_view_result = $cf7p_option['cf7p_view_result'];
-            $cf7p_status    = $cf7p_option['cf7p_status'];
-            $html='';
-            if ($cf7p_view_result && $cf7p_view_result==1 && !empty($cf7p_option["cf7p_name"]) && !empty($cf7p_status)) {
-                $html .= '<a href="javascript:void(0);" class="cf7p_result_btn" data-value="' . $form_id . '">View Result</a>';
-                return $html;
+            if(isset($cf7p_option) && !empty($cf7p_option)) {
+                $cf7p_view_result = $cf7p_option['cf7p_view_result'];
+                $cf7p_status    = $cf7p_option['cf7p_status'];
+                $html='';
+                if ($cf7p_view_result && $cf7p_view_result==1 && !empty($cf7p_option["cf7p_name"]) && !empty($cf7p_status)) {
+                    $html .= '<a href="javascript:void(0);" class="cf7p_result_btn" data-value="' . $form_id . '">View Result</a>';
+                    return $html;
+                }
             }
         }
 
