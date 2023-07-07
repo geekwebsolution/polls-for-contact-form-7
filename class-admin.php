@@ -15,7 +15,7 @@ if (!class_exists('cf7p_settings')) {
         static function cf7p_view_result_btn($tag)
         {
             $contact_form   = WPCF7_ContactForm::get_current();
-            $form_id        = $contact_form->id;
+            $form_id        = $contact_form->id();
             $cf7p_option    = get_option('cf7p_' . $form_id);
             $cf7p_view_result = $cf7p_option['cf7p_view_result'];
             $cf7p_status    = $cf7p_option['cf7p_status'];

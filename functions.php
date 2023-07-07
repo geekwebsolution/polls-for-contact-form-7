@@ -114,7 +114,8 @@ if(!class_exists('cf7p_functions')){
                             } ?>
                             
                             <ul>
-                                <?php for ($i=0; $i <count($names) ; $i++) {
+                                <?php 
+                                for ($i=0; $i <count($names) ; $i++) {
                                     $title = (!empty($titles[$i])) ? wp_unslash($titles[$i]) : ''; ?>
                                     <li>
                                     <?php
@@ -129,12 +130,19 @@ if(!class_exists('cf7p_functions')){
                                                     // All Field Count
                                                     $max_count = ((isset($max_cnt[$names[$i]]) && !empty($max_cnt[$names[$i]])) ? count($max_cnt[$names[$i]]) : 0); ?>
                                                     <ul>  
-                                                        <?php foreach ($field->values as $field_key => $field_value) {
+                                                        <?php 
+                                                        $sorted_list = [];
+                                                        foreach ($field->values as $field_key => $field_value) {
                                                             $count = (isset($single_field_count[$field_value]) ? $single_field_count[$field_value] : 0);
+                                                            $sorted_list[$field_value] = $count;
+                                                        }
+                                                        arsort($sorted_list);
+                                                        foreach ($sorted_list as $field_key => $field_value) {
+                                                            $count = (isset($field_value) ? $field_value : 0);
                                                             $percentage = ((isset($max_count) && !empty($max_count)) ? ($count/$max_count)*100 : 0);
                                                             $cf7p_votes_elem = ($cf7p_votes == 1 || $cf7p_percentage == 1 ) ? true : false; ?>
                                                             <li>
-                                                                <div class="cf7p-poll-name"><?php esc_attr_e($field_value); ?></div>
+                                                                <div class="cf7p-poll-name"><?php esc_attr_e($field_key); ?></div>
                                                                 <div class="cf7p-choice-poll <?php if($cf7p_votes == 0 || $cf7p_percentage == 0 ) { echo esc_attr('cf7p-poll-only'); } ?>">
                                                                     <div class="cf7p-poll-bg">
                                                                         <div class="cf7p-poll-bar" style="width: <?php esc_attr_e(round($percentage, 2)); ?>%;"></div>
@@ -152,7 +160,8 @@ if(!class_exists('cf7p_functions')){
                                                                     } ?>
                                                                 </div>
                                                             </li>
-                                                        <?php } ?> 
+                                                            <?php 
+                                                        } ?> 
                                                     </ul>
                                                 <?php }
                                             }
