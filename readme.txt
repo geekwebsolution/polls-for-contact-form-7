@@ -4,7 +4,7 @@ Donate link: https://paypal.me/rvadhel
 Tags: Polls, Polls for Contact Form, Contact Form Polls
 Requires PHP: 5.2.4
 Requires at least: 3.0.1
-Tested up to: 6.4.11
+Tested up to: 6.4.1
 Stable tag: 1.6
 
 == Description ==
