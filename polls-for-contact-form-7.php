@@ -3,13 +3,13 @@
 Plugin Name: Polls For Contact Form 7
 Description: This Plugin allows you to create polls for contact form 7 with many form fields.
 Author: Geek Code Lab
-Version: 1.5       
+Version: 1.6
 Author URI: https://geekcodelab.com/
 Text Domain : polls-for-contact-form-7
 */
 if (!defined('ABSPATH')) exit;
 
-define( 'CF7P_BUILD', 1.5 );
+define( 'CF7P_BUILD', 1.6 );
 
 if (!defined( 'CF7P_PLUGIN_DIR_PATH' ))
 	define( 'CF7P_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__) );
@@ -19,10 +19,6 @@ if (!defined( 'CF7P_PLUGIN_URL' ))
 
 register_activation_hook( __FILE__, 'cf7p_plugin_activate' );
 function cf7p_plugin_activate() {
-	if ( ! ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) ) {
-		die( 'Polls for Contact Form 7 can not activate as it requires <b>Contact Form 7</b>.' );
-	}
-        
     global $wpdb; 
     $db_table_name = $wpdb->prefix . 'cf7p_options';  // table name
     $charset_collate = $wpdb->get_charset_collate();
@@ -38,6 +34,35 @@ function cf7p_plugin_activate() {
         dbDelta( $sql );
     }
 }
+
+if ( ! function_exists( 'cf7p_install_contact_form_7_admin_notice' ) ) {
+	/**
+	 * Trigger an admin notice if Contact Form 7 is not installed.
+	 */
+	function cf7p_install_contact_form_7_admin_notice() {
+		?>
+		<div class="error">
+			<p>
+				<?php
+				// translators: %s is the plugin name.
+				echo esc_html( sprintf( __( '%s is enabled but not effective. It requires Contact Form 7 in order to work.', 'polls-for-contact-form-7' ), 'Polls For Contact Form 7' ) );
+				?>
+			</p>
+		</div>
+		<?php
+	}
+}
+
+function cf7p_self_constructor() {
+    // Contact Form installation check _________________________.
+	if ( ! ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) ) {
+		add_action( 'admin_notices', 'cf7p_install_contact_form_7_admin_notice' );
+		return;
+	}
+
+
+}
+add_action( 'plugins_loaded', 'cf7p_self_constructor' );
 
 $plugin = plugin_basename(__FILE__);
 add_filter( "plugin_action_links_$plugin", 'cf7p_add_plugin_settings_link');
