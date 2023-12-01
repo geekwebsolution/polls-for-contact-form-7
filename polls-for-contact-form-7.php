@@ -3,13 +3,13 @@
 Plugin Name: Polls For Contact Form 7
 Description: This Plugin allows you to create polls for contact form 7 with many form fields.
 Author: Geek Code Lab
-Version: 1.5       
+Version: 1.7       
 Author URI: https://geekcodelab.com/
 Text Domain : polls-for-contact-form-7
 */
 if (!defined('ABSPATH')) exit;
 
-define( 'CF7P_BUILD', 1.5 );
+define( 'CF7P_BUILD', 1.7 );
 
 if (!defined( 'CF7P_PLUGIN_DIR_PATH' ))
 	define( 'CF7P_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__) );
