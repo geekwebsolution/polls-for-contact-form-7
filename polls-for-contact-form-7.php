@@ -3,7 +3,7 @@
 Plugin Name: Polls For Contact Form 7
 Description: This Plugin allows you to create polls for contact form 7 with many form fields.
 Author: Geek Code Lab
-Version: 1.7       
+Version: 1.7
 Author URI: https://geekcodelab.com/
 Text Domain : polls-for-contact-form-7
 */
@@ -19,10 +19,6 @@ if (!defined( 'CF7P_PLUGIN_URL' ))
 
 register_activation_hook( __FILE__, 'cf7p_plugin_activate' );
 function cf7p_plugin_activate() {
-	if ( ! ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) ) {
-		die( 'Polls for Contact Form 7 can not activate as it requires <b>Contact Form 7</b>.' );
-	}
-        
     global $wpdb; 
     $db_table_name = $wpdb->prefix . 'cf7p_options';  // table name
     $charset_collate = $wpdb->get_charset_collate();
@@ -38,6 +34,35 @@ function cf7p_plugin_activate() {
         dbDelta( $sql );
     }
 }
+
+if ( ! function_exists( 'cf7p_install_contact_form_7_admin_notice' ) ) {
+	/**
+	 * Trigger an admin notice if Contact Form 7 is not installed.
+	 */
+	function cf7p_install_contact_form_7_admin_notice() {
+		?>
+		<div class="error">
+			<p>
+				<?php
+				// translators: %s is the plugin name.
+				echo esc_html( sprintf( __( '%s is enabled but not effective. It requires Contact Form 7 in order to work.', 'polls-for-contact-form-7' ), 'Polls For Contact Form 7' ) );
+				?>
+			</p>
+		</div>
+		<?php
+	}
+}
+
+function cf7p_self_constructor() {
+    // Contact Form installation check _________________________.
+	if ( ! ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) ) {
+		add_action( 'admin_notices', 'cf7p_install_contact_form_7_admin_notice' );
+		return;
+	}
+
+
+}
+add_action( 'plugins_loaded', 'cf7p_self_constructor' );
 
 $plugin = plugin_basename(__FILE__);
 add_filter( "plugin_action_links_$plugin", 'cf7p_add_plugin_settings_link');
@@ -95,7 +120,6 @@ function cf7p_add_more(){
         }
     }
     $unique_arr =  array_values(array_filter(array_merge(array_diff($selected_field_arr, $fields), array_diff($fields, $selected_field_arr))));
-    // echo '<pre>'; print_r( $unique_arr    ); echo '</pre>';
     if ($valid_field_found == true && !empty($unique_arr)) { ?>
         <tr class="cf7p-field-row" datafield="<?php echo $unique_arr[0] ?>">
             <td>
@@ -162,7 +186,6 @@ function cf7p_remove(){
     }
     $option['cf7p_name']  = implode(',',$names);
     $option['cf7p_title'] = implode(',',$title);
-    // echo '<pre>'; print_r( $cf7p_name_option ); echo '</pre>';
     if (count($cf7p_name_option) == 0) {
         $option['cf7p_status'] = ''; ?>
         <input type="hidden" name="" class="hide-remove-all" data-msg="1">
