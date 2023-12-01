@@ -3,13 +3,13 @@
 Plugin Name: Polls For Contact Form 7
 Description: This Plugin allows you to create polls for contact form 7 with many form fields.
 Author: Geek Code Lab
-Version: 1.6
+Version: 1.7
 Author URI: https://geekcodelab.com/
 Text Domain : polls-for-contact-form-7
 */
 if (!defined('ABSPATH')) exit;
 
-define( 'CF7P_BUILD', 1.6 );
+define( 'CF7P_BUILD', 1.7 );
 
 if (!defined( 'CF7P_PLUGIN_DIR_PATH' ))
 	define( 'CF7P_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__) );
@@ -120,7 +120,6 @@ function cf7p_add_more(){
         }
     }
     $unique_arr =  array_values(array_filter(array_merge(array_diff($selected_field_arr, $fields), array_diff($fields, $selected_field_arr))));
-    // echo '<pre>'; print_r( $unique_arr    ); echo '</pre>';
     if ($valid_field_found == true && !empty($unique_arr)) { ?>
         <tr class="cf7p-field-row" datafield="<?php echo $unique_arr[0] ?>">
             <td>
@@ -187,7 +186,6 @@ function cf7p_remove(){
     }
     $option['cf7p_name']  = implode(',',$names);
     $option['cf7p_title'] = implode(',',$title);
-    // echo '<pre>'; print_r( $cf7p_name_option ); echo '</pre>';
     if (count($cf7p_name_option) == 0) {
         $option['cf7p_status'] = ''; ?>
         <input type="hidden" name="" class="hide-remove-all" data-msg="1">

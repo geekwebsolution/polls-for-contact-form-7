@@ -386,7 +386,7 @@ if (!class_exists('cf7p_settings')) {
             global $wpdb;
             $cf7p_table  = $wpdb->prefix . 'cf7p_options';
             $form_id = $ContactForm->id();
-            $cf7p_nonce = sanitize_text_field($_POST['cf7p-nonce']);
+            $cf7p_nonce = isset($_POST['cf7p-nonce']) ? sanitize_text_field($_POST['cf7p-nonce']) : '';
 
             $titles = isset( $_POST['cf7p-title'] ) ? array_map( 'sanitize_text_field', $_POST['cf7p-title'] ) : array();
             $names  = isset( $_POST['cf7p-names'] ) ? array_map( 'sanitize_text_field', $_POST['cf7p-names'] ) : array();
@@ -438,9 +438,11 @@ if (!class_exists('cf7p_settings')) {
                 $wpdb->query( $wpdb->prepare( "DELETE FROM $cf7p_table WHERE form_id = %d", $form_id ) );
             }
             // Remove Mail Field From Option
-            if (!in_array($_POST['cf7p_email_field'],$email_fields) && !empty($enable_mail_limit)) {
-                $mail = $email_fields[0];
-                $enable_mail_limit = '';
+            if (isset($_POST['cf7p_email_field'])) {
+                if (!in_array($_POST['cf7p_email_field'],$email_fields) && !empty($enable_mail_limit)) {
+                    $mail = $email_fields[0];
+                    $enable_mail_limit = '';
+                }
             }
 
             $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $cf7p_table WHERE form_id = %d", $form_id ) );

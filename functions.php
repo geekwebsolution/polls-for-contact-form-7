@@ -62,20 +62,6 @@ if(!class_exists('cf7p_functions')){
                     }
                 }
                
-                // Single field Data Count
-                if (isset($final_arr)) {
-                    foreach ($final_arr as $key => $value) {
-                        foreach ($final_arr[$key] as $data_key => $data_value) {
-                            if (array_key_exists($data_value,$single_field_count)) { $single_field_count[$data_value]+=1; }
-                            else{
-                                $start_counting = 0;
-                                $start_counting++;
-                                $single_field_count[$data_value] = $start_counting;
-                            }
-                        }
-                    }
-                }
-
                 $titles         = (isset($cf7p_option['cf7p_title'])) ? explode(',',$cf7p_option['cf7p_title']) : array();
                 $names          = (isset($cf7p_option['cf7p_name']) && (!empty($cf7p_option['cf7p_name']))) ? explode(',',$cf7p_option['cf7p_name']) : array();
                 $cf7p_status    = (isset($cf7p_option['cf7p_status'])) ? $cf7p_option['cf7p_status'] : ''; 
@@ -122,25 +108,29 @@ if(!class_exists('cf7p_functions')){
                                         if (!empty($title)) { ?>
                                             <h3><?php esc_html_e($title)?></h3>
                                         <?php }
-
                                         if(isset($form_fields) && !empty($form_fields)){
                                             foreach ($form_fields as $key => $field) {
                                                 if ($names[$i]==$field->name) { 
-
                                                     // All Field Count
-                                                    $max_count = ((isset($max_cnt[$names[$i]]) && !empty($max_cnt[$names[$i]])) ? count($max_cnt[$names[$i]]) : 0); ?>
+                                                    $max_count = ((isset($max_cnt[$names[$i]]) && !empty($max_cnt[$names[$i]])) ? count($max_cnt[$names[$i]]) : 0);  ?>
                                                     <ul>  
                                                         <?php 
-                                                        $sorted_list = [];
-                                                        foreach ($field->values as $field_key => $field_value) {
-                                                            $count = (isset($single_field_count[$field_value]) ? $single_field_count[$field_value] : 0);
-                                                            $sorted_list[$field_value] = $count;
-                                                        }
-                                                        arsort($sorted_list);
-                                                        foreach ($sorted_list as $field_key => $field_value) {
-                                                            $count = (isset($field_value) ? $field_value : 0);
-                                                            $percentage = ((isset($max_count) && !empty($max_count)) ? ($count/$max_count)*100 : 0);
-                                                            $cf7p_votes_elem = ($cf7p_votes == 1 || $cf7p_percentage == 1 ) ? true : false; ?>
+                                                        if (!empty($field->name)) {      
+                                                            $field_name_chk = $field->name;
+                                                            $cf7p_cnt[$field_name_chk] = (isset($final_arr[$field_name_chk])) ? array_count_values($final_arr[$field_name_chk]) : [];
+                                                            $cf7p_field_values = $field->values;
+                                                            $cf7p_sorted_arr = [];
+                                                            if(isset($cf7p_field_values) && !empty($cf7p_field_values)) {
+                                                                foreach ($cf7p_field_values as $field_key => $field_value) { 
+                                                                    $cf7p_sorted_arr[$field_value] = (array_key_exists($field_value, $cf7p_cnt[$field_name_chk] )) ? $cf7p_cnt[$field_name_chk][$field_value] : 0 ;
+                                                                }
+                                                            }
+                                                            arsort($cf7p_sorted_arr);
+                                                            foreach ($cf7p_sorted_arr as $field_key => $field_value) { 
+                                                                $count = (isset($cf7p_cnt[$field_name_chk][$field_key]) ? $field_value : 0);
+                                                                $percentage = ((isset($max_count) && !empty($max_count)) ? ($count/$max_count)*100 : 0);
+                                                                $cf7p_votes_elem = ($cf7p_votes == 1 || $cf7p_percentage == 1 ) ? true : false; 
+                                                                ?>
                                                             <li>
                                                                 <div class="cf7p-poll-name"><?php esc_attr_e($field_key); ?></div>
                                                                 <div class="cf7p-choice-poll <?php if($cf7p_votes == 0 || $cf7p_percentage == 0 ) { echo esc_attr('cf7p-poll-only'); } ?>">
@@ -159,9 +149,12 @@ if(!class_exists('cf7p_functions')){
                                                                         <?php
                                                                     } ?>
                                                                 </div>
+
                                                             </li>
-                                                            <?php 
-                                                        } ?> 
+                                                                <?php
+                                                            }
+                                                        }
+                                                        ?> 
                                                     </ul>
                                                 <?php }
                                             }
@@ -219,8 +212,8 @@ if(!class_exists('cf7p_functions')){
                                     $data[$cf7p_name[$i]] = $inputs;
                                 }
                                 $cf7p_data = $data;
-                                $i++;
                             }
+                            $i++;
                         }
                     }
                     $cf7p_serialize_data = serialize($cf7p_data);
