@@ -58,6 +58,7 @@ For View Polls result go to Contact form 7-> Polls Result.
 
 == Changelog ==
 = 1.7 =
+ Fixed bug.
  Tested with latest version of Contact Form 7 
 
 = 1.6 =
