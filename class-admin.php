@@ -347,8 +347,9 @@ if (!class_exists('cf7p_settings')) {
                 $db_table_name  = $wpdb->prefix . 'cf7p_options';
                 $cf7p_limit     = (isset($option['cf7p_limit']) ) ? $option['cf7p_limit'] : 0;
                 $cf7p_status    = (isset($option['cf7p_status']) ) ? $option['cf7p_status'] : '';
-                $cf7p_set_limit = (isset($option['cf7p_set_limit']) ) ? $option['cf7p_set_limit'] : 0;
-
+                $cf7p_set_limit = (isset($option['cf7p_set_limit']) ) ? $option['cf7p_set_limit'] : 0; ?>
+                <button type="button" name="export-csv" class="cf7-export-csv-btn" data-form-id="<?php echo $form_id; ?>" aria-label="Export CSV">Export CSV</button>
+                <?php
                 if ($cf7p_set_limit == 1 && !empty($cf7p_status)) {
                     $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $db_table_name WHERE form_id = %d", $form_id ) );
                     if(!empty($results))    $cnt = $cf7p_limit - count($results);

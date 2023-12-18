@@ -241,5 +241,110 @@ function cf7p_result_btn(){
     <?php
     die;
 }
+
+// Front --Export Csv Results Data
+add_action('wp_ajax_cf7p_export_csv','cf7p_export_csv');
+function cf7p_export_csv(){
+
+    global $wpdb;
+
+    header('Content-type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename=Demo.csv');
+    header('Pragma: no-cache');
+    header('Expires: 0');
+    
+    $file = fopen('php://output', 'w');
+
+    $form_id       = sanitize_text_field($_POST['form_id']);
+
+    $db_table_name = $wpdb->prefix . 'cf7p_options';
+
+    $cf7p_option   = get_option('cf7p_'.$form_id.'');
+
+
+    if($wpdb->get_var( "show tables like '$db_table_name'" ) == $db_table_name ){
+        $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $db_table_name WHERE form_id = %d", $form_id ) );
+    }
+    else{
+        $results = [];
+    }
+    $final_arr = $max_cnt = $single_field_count = [];
+
+    //Get Results from database for matching
+    if (isset($results)) {
+        foreach ($results as $key => $value) {
+            $data = unserialize($value->inputs);
+            if (!empty($data)) {
+                foreach ($data as $data_key => $data_value) {
+                    $max_cnt[$data_key][]=$data_value;  
+                    if( strpos($data_value, ',') !== false ) {
+                        $multiple_values = explode(",",$data_value);
+                        if (isset($multiple_values)) {
+                            foreach ($multiple_values as $keys => $data_value) {
+                                $final_arr[$data_key][]=$data_value;
+                            }
+                        }
+                    }else{
+                        if (isset($data_value) && !empty($data_value)) {
+                            $final_arr[$data_key][]  =   $data_value;
+                        }
+                    }                    
+                }
+            }
+            else{
+                $delete = $wpdb->query( $wpdb->prepare( "DELETE FROM $db_table_name WHERE id = %d", $value->id ) );
+            }
+        }
+    }
+
+    $titles         = (isset($cf7p_option['cf7p_title'])) ? explode(',',$cf7p_option['cf7p_title']) : array();
+    $names          = (isset($cf7p_option['cf7p_name']) && (!empty($cf7p_option['cf7p_name']))) ? explode(',',$cf7p_option['cf7p_name']) : array();
+    $contact_form   = WPCF7_ContactForm::get_instance( $form_id );
+    $form_fields    = $contact_form->scan_form_tags();
+
+    for ($i=0; $i <count($names) ; $i++) {
+        $title = (!empty($titles[$i])) ? wp_unslash($titles[$i]) : ''; ?>
+            <?php
+
+            if (!empty($title)) { 
+              fputcsv($file, array($title));
+            }
+
+            if(isset($form_fields) && !empty($form_fields)){
+                foreach ($form_fields as $key => $field) {
+                    if ($names[$i]==$field->name) { 
+
+                        if (!empty($field->name)) {      
+                            $field_name_chk = $field->name;
+                            $cf7p_cnt[$field_name_chk] = (isset($final_arr[$field_name_chk])) ? array_count_values($final_arr[$field_name_chk]) : [];
+                            $cf7p_field_values = $field->values;
+                            
+                            $cf7p_sorted_arr = [];
+                            if(isset($cf7p_field_values) && !empty($cf7p_field_values)) {
+                                foreach ($cf7p_field_values as $field_key => $field_value) { 
+                                    $cf7p_sorted_arr[$field_value] = (array_key_exists($field_value, $cf7p_cnt[$field_name_chk] )) ? $cf7p_cnt[$field_name_chk][$field_value] : 0 ;
+                                }
+                            }   
+                            arsort($cf7p_sorted_arr);
+                            
+                            //keys
+                            fputcsv($file, array_keys($cf7p_sorted_arr));
+
+                            //values
+                            fputcsv($file, array_values($cf7p_sorted_arr));
+
+                            //extra line after one field
+                            fputcsv($file, []);
+                        } 
+                    }
+                }
+            } ?>
+        <?php 
+    } 
+    exit();
+}
+
+
+
 require_once(CF7P_PLUGIN_DIR_PATH . 'class-admin.php');
 require_once(CF7P_PLUGIN_DIR_PATH . 'functions.php');

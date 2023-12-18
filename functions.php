@@ -119,44 +119,45 @@ if(!class_exists('cf7p_functions')){
                                                             $field_name_chk = $field->name;
                                                             $cf7p_cnt[$field_name_chk] = (isset($final_arr[$field_name_chk])) ? array_count_values($final_arr[$field_name_chk]) : [];
                                                             $cf7p_field_values = $field->values;
+                                                            
                                                             $cf7p_sorted_arr = [];
                                                             if(isset($cf7p_field_values) && !empty($cf7p_field_values)) {
                                                                 foreach ($cf7p_field_values as $field_key => $field_value) { 
                                                                     $cf7p_sorted_arr[$field_value] = (array_key_exists($field_value, $cf7p_cnt[$field_name_chk] )) ? $cf7p_cnt[$field_name_chk][$field_value] : 0 ;
                                                                 }
-                                                            }
+                                                            }   
                                                             arsort($cf7p_sorted_arr);
+
                                                             foreach ($cf7p_sorted_arr as $field_key => $field_value) { 
                                                                 $count = (isset($cf7p_cnt[$field_name_chk][$field_key]) ? $field_value : 0);
                                                                 $percentage = ((isset($max_count) && !empty($max_count)) ? ($count/$max_count)*100 : 0);
                                                                 $cf7p_votes_elem = ($cf7p_votes == 1 || $cf7p_percentage == 1 ) ? true : false; 
                                                                 ?>
-                                                            <li>
-                                                                <div class="cf7p-poll-name"><?php esc_attr_e($field_key); ?></div>
-                                                                <div class="cf7p-choice-poll <?php if($cf7p_votes == 0 || $cf7p_percentage == 0 ) { echo esc_attr('cf7p-poll-only'); } ?>">
-                                                                    <div class="cf7p-poll-bg">
-                                                                        <div class="cf7p-poll-bar" style="width: <?php esc_attr_e(round($percentage, 2)); ?>%;"></div>
-                                                                    </div> 
-                                                                    <?php if($cf7p_votes_elem){ ?>
-                                                                        <div class="cf7p-poll-votes">
-                                                                            <?php if($cf7p_votes == 1){ ?>
-                                                                                <span><?php esc_attr_e($count); ?> Vote<?php esc_html_e((($count>1)?'s':'') );?> </span>
-                                                                            <?php } ?>
-                                                                            <?php if($cf7p_percentage == 1){ ?>
-                                                                                <span>(<?php esc_attr_e(round($percentage, 2)); ?>%)</span>
-                                                                            <?php } ?>
-                                                                        </div>
-                                                                        <?php
-                                                                    } ?>
-                                                                </div>
-
-                                                            </li>
+                                                                <li>
+                                                                    <div class="cf7p-poll-name"><?php esc_attr_e($field_key); ?></div>
+                                                                    <div class="cf7p-choice-poll <?php if($cf7p_votes == 0 || $cf7p_percentage == 0 ) { echo esc_attr('cf7p-poll-only'); } ?>">
+                                                                        <div class="cf7p-poll-bg">
+                                                                            <div class="cf7p-poll-bar" style="width: <?php esc_attr_e(round($percentage, 2)); ?>%;"></div>
+                                                                        </div> 
+                                                                        <?php if($cf7p_votes_elem){ ?>
+                                                                            <div class="cf7p-poll-votes">
+                                                                                <?php if($cf7p_votes == 1){ ?>
+                                                                                    <span><?php esc_attr_e($count); ?> Vote<?php esc_html_e((($count>1)?'s':'') );?> </span>
+                                                                                <?php } ?>
+                                                                                <?php if($cf7p_percentage == 1){ ?>
+                                                                                    <span>(<?php esc_attr_e(round($percentage, 2)); ?>%)</span>
+                                                                                <?php } ?>
+                                                                            </div>
+                                                                            <?php
+                                                                        } ?>
+                                                                    </div>
+                                                                </li>
                                                                 <?php
                                                             }
-                                                        }
-                                                        ?> 
+                                                        }?> 
                                                     </ul>
-                                                <?php }
+                                                    <?php 
+                                                }
                                             }
                                         } ?>
                                     </li>
