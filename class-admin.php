@@ -17,11 +17,11 @@ if (!class_exists('cf7p_settings')) {
             $contact_form   = WPCF7_ContactForm::get_current();
             $form_id        = $contact_form->id();
             $cf7p_option    = get_option('cf7p_' . $form_id);
-            if(isset($cf7p_option) && !empty($cf7p_option)) {
+            if (isset($cf7p_option) && !empty($cf7p_option)) {
                 $cf7p_view_result = $cf7p_option['cf7p_view_result'];
                 $cf7p_status    = $cf7p_option['cf7p_status'];
-                $html='';
-                if ($cf7p_view_result && $cf7p_view_result==1 && !empty($cf7p_option["cf7p_name"]) && !empty($cf7p_status)) {
+                $html = '';
+                if ($cf7p_view_result && $cf7p_view_result == 1 && !empty($cf7p_option["cf7p_name"]) && !empty($cf7p_status)) {
                     $html .= '<a href="javascript:void(0);" class="cf7p_result_btn" data-value="' . $form_id . '">View Result</a>';
                     return $html;
                 }
@@ -47,19 +47,19 @@ if (!class_exists('cf7p_settings')) {
             $cf7p_nonce     =   wp_create_nonce('cf7p_option_nonce');
             $form_id        =   $post->id();
             $option         =   get_option('cf7p_' . $form_id);
-            $cf7p_status = $cf7p_view_result = $cf7p_name = $cf7p_percentage = $cf7p_votes = $cf7p_color = $cf7p_backcolor = $cf7p_set_limit = $cf7p_limit_per_mail="";
-            if(isset($option["cf7p_status"]))       $cf7p_status = $option["cf7p_status"];
-            if(isset($option["cf7p_view_result"]))  $cf7p_view_result = $option["cf7p_view_result"];
-            if(isset($option["cf7p_name"]))         $cf7p_name = $option["cf7p_name"];
-            if(isset($option["cf7p_percentage"]))   $cf7p_percentage = $option["cf7p_percentage"];
-            if(isset($option["cf7p_votes"]))        $cf7p_votes = $option["cf7p_votes"];
-            if(isset($option["cf7p_color"]))        $cf7p_color = $option["cf7p_color"];
-            if(isset($option["cf7p_backcolor"]))    $cf7p_backcolor = $option["cf7p_backcolor"];
-            if(isset($option["cf7p_set_limit"]))  $cf7p_set_limit = $option["cf7p_set_limit"];
-            if(isset($option["cf7p_limit_per_mail"]))  $cf7p_limit_per_mail = $option["cf7p_limit_per_mail"];
-            if(isset($option["cf7p_email_field"]))  $cf7p_email_field = $option["cf7p_email_field"];
-            $cf7p_limit = (isset($option['cf7p_limit']) ) ? $option['cf7p_limit'] : 1;
-            ?>
+            $cf7p_status = $cf7p_view_result = $cf7p_name = $cf7p_percentage = $cf7p_votes = $cf7p_color = $cf7p_backcolor = $cf7p_set_limit = $cf7p_limit_per_mail = "";
+            if (isset($option["cf7p_status"]))       $cf7p_status = $option["cf7p_status"];
+            if (isset($option["cf7p_view_result"]))  $cf7p_view_result = $option["cf7p_view_result"];
+            if (isset($option["cf7p_name"]))         $cf7p_name = $option["cf7p_name"];
+            if (isset($option["cf7p_percentage"]))   $cf7p_percentage = $option["cf7p_percentage"];
+            if (isset($option["cf7p_votes"]))        $cf7p_votes = $option["cf7p_votes"];
+            if (isset($option["cf7p_color"]))        $cf7p_color = $option["cf7p_color"];
+            if (isset($option["cf7p_backcolor"]))    $cf7p_backcolor = $option["cf7p_backcolor"];
+            if (isset($option["cf7p_set_limit"]))  $cf7p_set_limit = $option["cf7p_set_limit"];
+            if (isset($option["cf7p_limit_per_mail"]))  $cf7p_limit_per_mail = $option["cf7p_limit_per_mail"];
+            if (isset($option["cf7p_email_field"]))  $cf7p_email_field = $option["cf7p_email_field"];
+            $cf7p_limit = (isset($option['cf7p_limit'])) ? $option['cf7p_limit'] : 1;
+?>
             <div class="contact-form-polls-box" id="cf7p_polls">
                 <?php
                 if ($post->id()) { ?>
@@ -103,30 +103,28 @@ if (!class_exists('cf7p_settings')) {
                                                 <?php
                                                 $ContactForm = WPCF7_ContactForm::get_instance($form_id);
                                                 $form_fields = $ContactForm->scan_form_tags();
-                                                $input_type = array('select', 'checkbox', 'radio');                                                
+                                                $input_type = array('select', 'checkbox', 'radio');
                                                 $all_fields = [];
-                                                if(isset($form_fields) && $form_fields){
+                                                if (isset($form_fields) && $form_fields) {
                                                     foreach ($form_fields as $key => $value) {
                                                         if ((in_array($value->basetype, $input_type))) {
-                                                            array_push($all_fields,$value->name);
+                                                            array_push($all_fields, $value->name);
                                                         }
-                                                        
                                                     }
                                                 }
                                                 if (isset($cf7p_name) && !empty($cf7p_name)) {
                                                     $title_arr = explode(",", $option['cf7p_title']);
                                                     $name_arr = explode(",", $cf7p_name);
                                                     $status = 0;
-                                                    if(isset($form_fields) && $form_fields){
+                                                    if (isset($form_fields) && $form_fields) {
                                                         foreach ($form_fields as $key => $value) {
                                                             if (!(in_array($value->basetype, $input_type))) {
                                                                 $status++;
                                                             }
-                                                            
                                                         }
                                                     }
                                                     if ($status > 0) {
-                                                        if(!empty($name_arr) && !empty($title_arr)){
+                                                        if (!empty($name_arr) && !empty($title_arr)) {
                                                             for ($i = 0; $i < count($name_arr); $i++) {
                                                                 $title = (!empty($title_arr[$i])) ? wp_unslash($title_arr[$i]) : ''; ?>
                                                                 <tr class="cf7p-field-row" datafield=<?php echo $name_arr[$i] ?>>
@@ -137,14 +135,14 @@ if (!class_exists('cf7p_settings')) {
                                                                     <td>
                                                                         <select name="cf7p-names[]" id="cf7p-name">
                                                                             <?php
-                                                                            if(isset($form_fields) && !empty($form_fields)){
+                                                                            if (isset($form_fields) && !empty($form_fields)) {
                                                                                 foreach ($form_fields as $key => $value) {
-                                                                                    if (in_array($value->basetype, $input_type)) { 
-                                                                                            ?>
+                                                                                    if (in_array($value->basetype, $input_type)) {
+                                                                            ?>
                                                                                         <option value="<?php esc_attr_e($value->name, 'polls-for-contact-form-7');  ?>" <?php esc_attr_e(($value->name == $name_arr[$i]) ? 'selected="selected"' : ''); ?>>
                                                                                             <?php esc_attr_e($value->name, 'polls-for-contact-form-7');  ?>
                                                                                         </option>
-                                                                                        <?php
+                                                                            <?php
                                                                                     }
                                                                                 }
                                                                             } ?>
@@ -162,7 +160,7 @@ if (!class_exists('cf7p_settings')) {
                                                                         </button>
                                                                     </td>
                                                                 </tr>
-                                                                <?php
+                                                <?php
                                                             }
                                                         }
                                                     }
@@ -170,17 +168,22 @@ if (!class_exists('cf7p_settings')) {
                                             </tbody>
                                         </table>
                                         <div class="cf7p_polls_btn">
-                                            <button type="button" id="cf7p_add" class="btn btn-success cf7p-loader" data-all-fields="<?php esc_attr_e(implode(",",array_filter($all_fields))) ?>" data-selected_fields="<?php  esc_attr_e($cf7p_name) ?>">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><g id="plus"><line class="cls-1" x1="16" x2="16" y1="7" y2="25"/><line class="cls-1" x1="7" x2="25" y1="16" y2="16"/></g></svg>                                                
+                                            <button type="button" id="cf7p_add" class="btn btn-success cf7p-loader" data-all-fields="<?php esc_attr_e(implode(",", array_filter($all_fields))) ?>" data-selected_fields="<?php esc_attr_e($cf7p_name) ?>">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                                                    <g id="plus">
+                                                        <line class="cls-1" x1="16" x2="16" y1="7" y2="25" />
+                                                        <line class="cls-1" x1="7" x2="25" y1="16" y2="16" />
+                                                    </g>
+                                                </svg>
                                                 <span class="cf7p_btn_text"><?php esc_html_e('Add Poll', 'polls-for-contact-form-7') ?></span>
                                                 <span class="loader"></span>
                                             </button>
-                                            <button type="button" id="cf7p_remove_all" class="btn" style="<?php esc_html_e(empty($cf7p_name) ? 'display:none;' :''); ?>">
+                                            <button type="button" id="cf7p_remove_all" class="btn" style="<?php esc_html_e(empty($cf7p_name) ? 'display:none;' : ''); ?>">
                                                 <svg width="18" height="18" x="0" y="0" viewBox="0 0 1024 1024">
-                                                        <g>
-                                                            <path xmlns="http://www.w3.org/2000/svg" d="m724.9 952.2h-423c-22.1 0-40.4-17.1-41.9-39.2l-36.3-539.6c-1.6-24.3 17.6-44.8 41.9-44.8h495.6c24.3 0 43.5 20.6 41.9 44.8l-36.3 539.6c-1.5 22.1-19.8 39.2-41.9 39.2zm119.6-702.3h-657c-.6 0-1-.4-1-1v-114.9c0-.6.4-1 1-1h657c.6 0 1 .4 1 1v114.8c0 .6-.4 1.1-1 1.1z" fill="#000000" data-original="#000000" class=""></path>
-                                                        </g>
-                                                    </svg>                                                
+                                                    <g>
+                                                        <path xmlns="http://www.w3.org/2000/svg" d="m724.9 952.2h-423c-22.1 0-40.4-17.1-41.9-39.2l-36.3-539.6c-1.6-24.3 17.6-44.8 41.9-44.8h495.6c24.3 0 43.5 20.6 41.9 44.8l-36.3 539.6c-1.5 22.1-19.8 39.2-41.9 39.2zm119.6-702.3h-657c-.6 0-1-.4-1-1v-114.9c0-.6.4-1 1-1h657c.6 0 1 .4 1 1v114.8c0 .6-.4 1.1-1 1.1z" fill="#000000" data-original="#000000" class=""></path>
+                                                    </g>
+                                                </svg>
                                                 <span class="cf7p_btn_text"><?php esc_html_e('Remove All', 'polls-for-contact-form-7') ?></span>
                                             </button>
                                         </div>
@@ -192,8 +195,8 @@ if (!class_exists('cf7p_settings')) {
                                         <label for="cf7p-percentage"><?php esc_html_e('Percentage', 'polls-for-contact-form-7'); ?></label>
                                     </th>
                                     <td>
-                                        <input type="radio" name="cf7p-percentage" value="1" id="cf7p-percentage-show" <?php esc_attr_e(($cf7p_percentage == '1') ? 'checked' : 'checked' ); ?>><label for="cf7p-percentage-show"><?php esc_html_e('Show', 'polls-for-contact-form-7'); ?></label>
-                                        <input type="radio" name="cf7p-percentage" value="0" id="cf7p-percentage-hide" <?php esc_attr_e(($cf7p_percentage == '0') ? 'checked' : '');?>><label for="cf7p-percentage-hide"><?php esc_html_e('Hide', 'polls-for-contact-form-7'); ?></label>
+                                        <input type="radio" name="cf7p-percentage" value="1" id="cf7p-percentage-show" <?php esc_attr_e(($cf7p_percentage == '1') ? 'checked' : 'checked'); ?>><label for="cf7p-percentage-show"><?php esc_html_e('Show', 'polls-for-contact-form-7'); ?></label>
+                                        <input type="radio" name="cf7p-percentage" value="0" id="cf7p-percentage-hide" <?php esc_attr_e(($cf7p_percentage == '0') ? 'checked' : ''); ?>><label for="cf7p-percentage-hide"><?php esc_html_e('Hide', 'polls-for-contact-form-7'); ?></label>
                                         <p class="cf7p-note"><?php esc_html_e('Select for display votes in percentage format.', 'polls-for-contact-form-7'); ?></p>
                                     </td>
                                 </tr>
@@ -213,7 +216,7 @@ if (!class_exists('cf7p_settings')) {
                                     </th>
                                     <td>
                                         <input type="checkbox" class="cf7p-view-result" id="cf7p-view-result" name="cf7p-view-result" value="1" <?php esc_attr_e(($cf7p_view_result == 1) ? 'checked="checked"' : ''); ?>><label for="cf7p-view-result"><?php esc_html_e('Enable', 'polls-for-contact-form-7'); ?></label>
-                                        <p class="cf7p-note"><?php esc_html_e('Enable to apply view result button.', 'polls-for-contact-form-7'); ?> <a href="javascript:void(0);" class="cf7p-view-poll-result"><?php  esc_html_e("View Result","polls-for-contact-form-7"); ?></a>
+                                        <p class="cf7p-note"><?php esc_html_e('Enable to apply view result button.', 'polls-for-contact-form-7'); ?> <a href="javascript:void(0);" class="cf7p-view-poll-result"><?php esc_html_e("View Result", "polls-for-contact-form-7"); ?></a>
                                         </p>
                                     </td>
                                 </tr>
@@ -228,32 +231,32 @@ if (!class_exists('cf7p_settings')) {
                                 <tr>
                                     <th><label for="cf7p-set-limit"><?php esc_html_e('Limit', 'polls-for-contact-form-7'); ?></label></th>
                                     <td>
-                                    <input type="checkbox" class="cf7p-set-limit" id="cf7p-set-limit" name="cf7p-set-limit" value="1" <?php esc_attr_e(($cf7p_set_limit == 1) ? 'checked="checked"' : ''); ?>><label for="cf7p-set-limit"><?php esc_html_e('Enable', 'polls-for-contact-form-7'); ?></label>
+                                        <input type="checkbox" class="cf7p-set-limit" id="cf7p-set-limit" name="cf7p-set-limit" value="1" <?php esc_attr_e(($cf7p_set_limit == 1) ? 'checked="checked"' : ''); ?>><label for="cf7p-set-limit"><?php esc_html_e('Enable', 'polls-for-contact-form-7'); ?></label>
                                     </td>
                                 </tr>
 
                                 <tr class="<?php esc_attr_e(($cf7p_set_limit != 1) ? 'cf7p-hide-fields' : ''); ?>">
                                     <th></th>
                                     <td class="cf7p_set_limit">
-                                    <input type="number" name="cf7p_limit" min="0" value="<?php esc_attr_e($cf7p_limit);  ?>">
-                                    <?php 
-                                    if (isset($cf7p_limit) && !empty($cf7p_limit)) {
-                                        if($wpdb->get_var( "show tables like '$db_table_name'" ) == $db_table_name ){
-                                            $results =  $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $db_table_name WHERE form_id = %d", $form_id ) );
-                                        }
-                                        else{
-                                            $results = 0;
-                                        }
-                                        $results = (!empty($results)) ?count($results) : 0 ;
-                                        $cnt=$cf7p_limit-$results;
-                                        $cf7p_remaining_vote=(isset($cnt) ? $cnt : $cf7p_limit); ?>
-                                        <span class="<?php esc_html_e((empty($cf7p_limit) ? 'cf7p-hide-fields' :'')); esc_html_e($cf7p_remaining_vote<=0 && !empty($option['cf7p_status']) ? 'cf7p-error-msg' : ''); ?>">
-                                            <?php  (($cf7p_remaining_vote<=0 && !empty($option['cf7p_status'])) ? _e('<i>Your Limit Is Over. <b style="color:#000">(Note: </b><b style="color:#000;font-weight:inherit">Enable reset polls data option to reset polls.</b><b style="color:#000">)</b></i>') :  esc_html_e('Remaining Vote ') . esc_attr_e($cf7p_remaining_vote)); ?> </span>
-                                            
-                                        <?php 
-                                    } ?>
+                                        <input type="number" name="cf7p_limit" min="0" value="<?php esc_attr_e($cf7p_limit);  ?>">
+                                        <?php
+                                        if (isset($cf7p_limit) && !empty($cf7p_limit)) {
+                                            if ($wpdb->get_var("show tables like '$db_table_name'") == $db_table_name) {
+                                                $results =  $wpdb->get_results($wpdb->prepare("SELECT * FROM $db_table_name WHERE form_id = %d", $form_id));
+                                            } else {
+                                                $results = 0;
+                                            }
+                                            $results = (!empty($results)) ? count($results) : 0;
+                                            $cnt = $cf7p_limit - $results;
+                                            $cf7p_remaining_vote = (isset($cnt) ? $cnt : $cf7p_limit); ?>
+                                            <span class="<?php esc_html_e((empty($cf7p_limit) ? 'cf7p-hide-fields' : ''));
+                                                            esc_html_e($cf7p_remaining_vote <= 0 && !empty($option['cf7p_status']) ? 'cf7p-error-msg' : ''); ?>">
+                                                <?php (($cf7p_remaining_vote <= 0 && !empty($option['cf7p_status'])) ? _e('<i>Your Limit Is Over. <b style="color:#000">(Note: </b><b style="color:#000;font-weight:inherit">Enable reset polls data option to reset polls.</b><b style="color:#000">)</b></i>') :  esc_html_e('Remaining Vote ') . esc_attr_e($cf7p_remaining_vote)); ?> </span>
+
+                                        <?php
+                                        } ?>
                                         <p class="cf7p-note"><?php esc_html_e('Set max vote limit for form submission.', 'polls-for-contact-form-7'); ?></p>
-                                        <p class="cf7p-note"><?php esc_html_e('Note:', 'polls-for-contact-form-7'); ?> <i><?php esc_html_e('Value must be greater than or equal to 1.','polls-for-contact-form-7'); ?></i></p>
+                                        <p class="cf7p-note"><?php esc_html_e('Note:', 'polls-for-contact-form-7'); ?> <i><?php esc_html_e('Value must be greater than or equal to 1.', 'polls-for-contact-form-7'); ?></i></p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -262,7 +265,7 @@ if (!class_exists('cf7p_settings')) {
                                     </th>
                                     <td>
                                         <label class="cf7p-switch">
-                                            <input type="checkbox" class="cf7p-checkbox cf7p_limit_per_mail" name="cf7p_limit_per_mail" value="on" <?php if (( !empty($cf7p_limit_per_mail) && $cf7p_limit_per_mail == 'on' && !empty($cf7p_email_field))) esc_attr_e('checked'); ?>>
+                                            <input type="checkbox" class="cf7p-checkbox cf7p_limit_per_mail" name="cf7p_limit_per_mail" value="on" <?php if ((!empty($cf7p_limit_per_mail) && $cf7p_limit_per_mail == 'on' && !empty($cf7p_email_field))) esc_attr_e('checked'); ?>>
                                             <span class="cf7p-slider"></span>
                                         </label>
                                         <p class="cf7p-note"><?php esc_html_e('Enable to set limit one per Email.', 'polls-for-contact-form-7'); ?></p>
@@ -271,15 +274,15 @@ if (!class_exists('cf7p_settings')) {
                                 <tr class="cf7p_mail <?php esc_attr_e(($cf7p_limit_per_mail != 'on') ? 'cf7p-hide-fields' : ''); ?>">
                                     <th>Select Email Field</th>
                                     <td class="cf7p_result_btn_shortcode">
-                                    <?php
+                                        <?php
                                         $ContactForm = WPCF7_ContactForm::get_instance($form_id);
                                         $form_fields = $ContactForm->scan_form_tags();
                                         $found_mail_field = false;
                                         $email_fields = [];
-                                        if(isset($form_fields) && $form_fields){
+                                        if (isset($form_fields) && $form_fields) {
                                             foreach ($form_fields as $key => $value) {
                                                 if ($value->basetype == 'email') {
-                                                    array_push($email_fields,$value->name);
+                                                    array_push($email_fields, $value->name);
                                                     $found_mail_field = true;
                                                 }
                                             }
@@ -287,19 +290,18 @@ if (!class_exists('cf7p_settings')) {
                                         if ($found_mail_field == true) { ?>
                                             <select name="cf7p_email_field">
                                                 <?php
-                                                    foreach ($email_fields as $key => $value) { ?>
-                                                        <option value="<?php  esc_attr_e($value);  ?>" <?php esc_attr_e(((!empty($cf7p_email_field) && $value == $cf7p_email_field) || count($email_fields)==1) ? 'selected="selected"' : ''); ?>>
-                                                            <?php esc_attr_e($value, 'polls-for-contact-form-7');  ?>
-                                                        </option>                                                        
-                                                    <?php
-                                                    }
+                                                foreach ($email_fields as $key => $value) { ?>
+                                                    <option value="<?php esc_attr_e($value);  ?>" <?php esc_attr_e(((!empty($cf7p_email_field) && $value == $cf7p_email_field) || count($email_fields) == 1) ? 'selected="selected"' : ''); ?>>
+                                                        <?php esc_attr_e($value, 'polls-for-contact-form-7');  ?>
+                                                    </option>
+                                                <?php
+                                                }
                                                 ?>
                                             </select>
-                                            <?php
-                                        }
-                                        else{ ?>
-                                            <p><?php esc_html_e('There is no email field found.','polls-for-contact-form-7'); ?></p>
-                                            <?php
+                                        <?php
+                                        } else { ?>
+                                            <p><?php esc_html_e('There is no email field found.', 'polls-for-contact-form-7'); ?></p>
+                                        <?php
                                         }
                                         ?>
                                     </td>
@@ -321,8 +323,8 @@ if (!class_exists('cf7p_settings')) {
                                 <tr>
                                     <th><label for="cf7p-reset-polls-data"><?php esc_html_e('Reset Polls Data', 'polls-for-contact-form-7'); ?></label></th>
                                     <td>
-                                    <input type="checkbox" class="cf7p-reset-polls-data" id="cf7p-reset-polls-data" name="cf7p-reset-polls-data" value="1" ><label for="cf7p-reset-polls-data"><?php esc_html_e('Reset', 'polls-for-contact-form-7'); ?></label>
-                                    <p class="cf7p-note"><i><?php esc_html_e('Here you can Reset polls data.', 'polls-for-contact-form-7'); ?></i></p>
+                                        <input type="checkbox" class="cf7p-reset-polls-data" id="cf7p-reset-polls-data" name="cf7p-reset-polls-data" value="1"><label for="cf7p-reset-polls-data"><?php esc_html_e('Reset', 'polls-for-contact-form-7'); ?></label>
+                                        <p class="cf7p-note"><i><?php esc_html_e('Here you can Reset polls data.', 'polls-for-contact-form-7'); ?></i></p>
                                     </td>
                                 </tr>
                             </tbody>
@@ -339,47 +341,64 @@ if (!class_exists('cf7p_settings')) {
             <?php
         }
 
-        static function polls_result_callback($post){
-            $form_id=$post->id(); 
+        static function polls_result_callback($post)
+        {
+            $form_id = $post->id();
             if ($form_id) {
-                $option     =   get_option('cf7p_' . $form_id);
+
                 global $wpdb;
-                $db_table_name  = $wpdb->prefix . 'cf7p_options';
-                $cf7p_limit     = (isset($option['cf7p_limit']) ) ? $option['cf7p_limit'] : 0;
-                $cf7p_status    = (isset($option['cf7p_status']) ) ? $option['cf7p_status'] : '';
-                $cf7p_set_limit = (isset($option['cf7p_set_limit']) ) ? $option['cf7p_set_limit'] : 0; ?>
-                <button type="button" name="export-csv" class="cf7-export-csv-btn" data-form-id="<?php echo $form_id; ?>" aria-label="Export CSV">Export CSV</button>
-                <?php
+                $db_table_name              = $wpdb->prefix . 'cf7p_options';
+                $option                     = get_option('cf7p_' . $form_id);
+
+                $ContactForm                = WPCF7_ContactForm::get_instance($form_id); 
+                $current_contact_form_title = $ContactForm ? $ContactForm->title() : "sample-file";
+
+                $cf7p_limit                 = (isset($option['cf7p_limit'])) ? $option['cf7p_limit'] : 0;
+                $cf7p_status                = (isset($option['cf7p_status'])) ? $option['cf7p_status'] : '';
+                $cf7p_set_limit             = (isset($option['cf7p_set_limit'])) ? $option['cf7p_set_limit'] : 0; 
+                
+                if(!empty($cf7p_status)){?>
+                    <!--Export CSV Button-->
+                    <button type="button" name="export-csv" class="cf7-export-csv-btn" data-form-name="<?php echo $current_contact_form_title; ?>" data-form-id="<?php echo $form_id; ?>" aria-label="Export CSV">
+                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="22" height="22" x="0" y="0" viewBox="0 0 32 32" style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
+                            <g>
+                                <path d="M25.9 9.54v18.19h-.77V10.9l-6.35-6.35H7.27v-.78h12.87z" fill="#000000" opacity="1" data-original="#000000" class=""></path>
+                                <path d="M27.68 7.77v18.18h-.78V9.13l-6.35-6.36H9.05V2h12.86z" fill="#000000" opacity="1" data-original="#000000" class=""></path>
+                                <path d="M18.863 6.048v4.766h4.766z" fill="#000000" opacity="1" data-original="#000000" class=""></path>
+                                <path d="M24.129 11.814h-5.766a.5.5 0 0 1-.5-.5V5.549H5.5V29.5h18.629zM20.01 23.822H9.048a.5.5 0 0 1 0-1H20.01a.5.5 0 0 1 0 1zm0-4.435H9.048a.5.5 0 0 1 0-1H20.01a.5.5 0 0 1 0 1zm0-4.436H9.048a.5.5 0 0 1 0-1H20.01a.5.5 0 0 1 0 1z" fill="#000000" opacity="1" data-original="#000000" class=""></path>
+                            </g>
+                        </svg>Export CSV
+                    </button>
+                    <?php
+                }
                 if ($cf7p_set_limit == 1 && !empty($cf7p_status)) {
-                    $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $db_table_name WHERE form_id = %d", $form_id ) );
-                    if(!empty($results))    $cnt = $cf7p_limit - count($results);
+                    $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $db_table_name WHERE form_id = %d", $form_id));
+                    if (!empty($results))    $cnt = $cf7p_limit - count($results);
                     $cf7p_remaining_vote    =   (isset($cnt) ? $cnt : $cf7p_limit); ?>
                     <div class="contact-form-polls-box" id="cf7p_polls">
                         <table class="form-table">
                             <tr>
-                                <th><?php  esc_html_e('Limit','polls-for-contact-form-7'); ?></th>
+                                <th><?php esc_html_e('Limit', 'polls-for-contact-form-7'); ?></th>
                                 <td class="cf7p_set_limit"><?php esc_attr_e($cf7p_limit);  ?></td>
                             </tr>
                             <tr>
                                 <?php
-                                    if ($cf7p_remaining_vote<=0) { ?>
-                                        <th class="cf7p-error-msg"><?php esc_html_e('Your Limit Is Over','polls-for-contact-form-7'); ?></th>
-                                    <?php }
-                                    else{ ?>
-                                        <th><?php esc_html_e('Remaining Vote','polls-for-contact-form-7'); ?></th>
-                                        <td><?php  esc_attr_e($cf7p_remaining_vote); ?></td>
-                                    <?php }
+                                if ($cf7p_remaining_vote <= 0) { ?>
+                                    <th class="cf7p-error-msg"><?php esc_html_e('Your Limit Is Over', 'polls-for-contact-form-7'); ?></th>
+                                <?php } else { ?>
+                                    <th><?php esc_html_e('Remaining Vote', 'polls-for-contact-form-7'); ?></th>
+                                    <td><?php esc_attr_e($cf7p_remaining_vote); ?></td>
+                                <?php }
                                 ?>
                             </tr>
                         </table>
                     </div>
                 <?php
-                } 
-                echo esc_html(do_shortcode('[cf7p id='.$form_id.']'));
-            }
-            else{ ?>
-                <h3><?php _e('Please save your form','polls-for-contact-form-7'); ?></h3>
-            <?php }
+                }
+                echo esc_html(do_shortcode('[cf7p id=' . $form_id . ']'));
+            } else { ?>
+                <h3><?php _e('Please save your form', 'polls-for-contact-form-7'); ?></h3>
+<?php }
         }
 
         static function cf7p_save_settings_call($ContactForm)
@@ -389,10 +408,10 @@ if (!class_exists('cf7p_settings')) {
             $form_id = $ContactForm->id();
             $cf7p_nonce = isset($_POST['cf7p-nonce']) ? sanitize_text_field($_POST['cf7p-nonce']) : '';
 
-            $titles = isset( $_POST['cf7p-title'] ) ? array_map( 'sanitize_text_field', $_POST['cf7p-title'] ) : array();
-            $names  = isset( $_POST['cf7p-names'] ) ? array_map( 'sanitize_text_field', $_POST['cf7p-names'] ) : array();
+            $titles = isset($_POST['cf7p-title']) ? array_map('sanitize_text_field', $_POST['cf7p-title']) : array();
+            $names  = isset($_POST['cf7p-names']) ? array_map('sanitize_text_field', $_POST['cf7p-names']) : array();
             $mail     =   (isset($_POST['cf7p_email_field']) && !empty($_POST['cf7p_email_field']) && !empty($_POST['cf7p_limit_per_mail'])) ? sanitize_text_field($_POST['cf7p_email_field']) : '';
-            $enable_mail_limit = ((isset($_POST['cf7p_limit_per_mail'])) && !empty($_POST['cf7p_email_field']) ) ? sanitize_text_field($_POST['cf7p_limit_per_mail']) : '';
+            $enable_mail_limit = ((isset($_POST['cf7p_limit_per_mail'])) && !empty($_POST['cf7p_email_field'])) ? sanitize_text_field($_POST['cf7p_limit_per_mail']) : '';
             $cf7p_status = isset($_POST['cf7p_status']) ? sanitize_text_field($_POST['cf7p_status']) : '';
             $ContactForm = WPCF7_ContactForm::get_instance($form_id);
             $form_fields = $ContactForm->scan_form_tags();
@@ -401,52 +420,51 @@ if (!class_exists('cf7p_settings')) {
             $arr = $cf7p_names = $cf7p_titles =  $email_fields = $fields = [];
             if (isset($names)) {
                 foreach ($names as $key => $value) {
-                    $arr[$value]=$titles[$key];
+                    $arr[$value] = $titles[$key];
                 }
             }
 
-            
-            if(isset($form_fields) && $form_fields){
+
+            if (isset($form_fields) && $form_fields) {
                 foreach ($form_fields as $key => $value) {
                     // Remove names from option 
-                    if (in_array($value->basetype, $input_type)){
-                        array_push($fields,$value->name);
-                        if(in_array($value->name,$names)){ 
+                    if (in_array($value->basetype, $input_type)) {
+                        array_push($fields, $value->name);
+                        if (in_array($value->name, $names)) {
                             $cf7p_names[] = $value->name;
                         }
                     }
                     // Get All Email Fields
                     if ($value->basetype == 'email') {
-                        array_push($email_fields,$value->name);
+                        array_push($email_fields, $value->name);
                         $found_mail_field = true;
                     }
                 }
             }
-            
-            if(isset($names) && $names){
+
+            if (isset($names) && $names) {
                 foreach ($names as $key => $value) {
-                    if(!in_array($value,$fields)){ 
+                    if (!in_array($value, $fields)) {
                         if (($key = array_search($value, $names)) !== false) {
                             unset($names[$key]);
                         }
                     }
                 }
-
             }
             // die;
             // Reset All Polls Data
-            if(isset($_POST['cf7p-reset-polls-data'])) {
-                $wpdb->query( $wpdb->prepare( "DELETE FROM $cf7p_table WHERE form_id = %d", $form_id ) );
+            if (isset($_POST['cf7p-reset-polls-data'])) {
+                $wpdb->query($wpdb->prepare("DELETE FROM $cf7p_table WHERE form_id = %d", $form_id));
             }
             // Remove Mail Field From Option
             if (isset($_POST['cf7p_email_field'])) {
-                if (!in_array($_POST['cf7p_email_field'],$email_fields) && !empty($enable_mail_limit)) {
+                if (!in_array($_POST['cf7p_email_field'], $email_fields) && !empty($enable_mail_limit)) {
                     $mail = $email_fields[0];
                     $enable_mail_limit = '';
                 }
             }
 
-            $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $cf7p_table WHERE form_id = %d", $form_id ) );
+            $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM $cf7p_table WHERE form_id = %d", $form_id));
             // Delete data from table when form field remove
             if (isset($results)) {
                 foreach ($results as $key => $value) {
@@ -454,30 +472,30 @@ if (!class_exists('cf7p_settings')) {
                     $get_data = unserialize($value->inputs);
                     if (isset($get_data)) {
                         foreach ($get_data as $data_key => $data_value) {
-                            if (!in_array($data_key,$cf7p_names)) {
+                            if (!in_array($data_key, $cf7p_names)) {
                                 unset($get_data[$data_key]);
                             }
                         }
                     }
-                    $serialize_data =   serialize($get_data);     
-                    $wpdb->query( $wpdb->prepare( "UPDATE $cf7p_table SET inputs = %s WHERE form_id = %d AND id = %d", $serialize_data, $form_id, $row_id ) );
+                    $serialize_data =   serialize($get_data);
+                    $wpdb->query($wpdb->prepare("UPDATE $cf7p_table SET inputs = %s WHERE form_id = %d AND id = %d", $serialize_data, $form_id, $row_id));
                 }
             }
             // Remove title from option when form field remove
             if (isset($arr) && !empty($arr)) {
-                foreach($arr as $key => $val){
-                    if(in_array($key,$cf7p_names)){
+                foreach ($arr as $key => $val) {
+                    if (in_array($key, $cf7p_names)) {
                         $cf7p_titles[] = $val;
                     }
                 }
             }
-            if(isset($cf7p_titles)) $cf7p_titles = implode(",",$cf7p_titles);
-            if(isset($cf7p_names))  $cf7p_names = implode(",",array_unique($names));
-            
+            if (isset($cf7p_titles)) $cf7p_titles = implode(",", $cf7p_titles);
+            if (isset($cf7p_names))  $cf7p_names = implode(",", array_unique($names));
+
             // Remove all data from table when no any relavent field found
-            if(empty($cf7p_names)){
-                $cf7p_status='';
-                $wpdb->query( $wpdb->prepare( "DELETE FROM $cf7p_table WHERE form_id = %d", $form_id ) );
+            if (empty($cf7p_names)) {
+                $cf7p_status = '';
+                $wpdb->query($wpdb->prepare("DELETE FROM $cf7p_table WHERE form_id = %d", $form_id));
             }
 
             $cf7p['form_id']            =   $form_id;
@@ -488,12 +506,12 @@ if (!class_exists('cf7p_settings')) {
             $cf7p['cf7p_votes']         =   isset($_POST['cf7p-votes']) ? sanitize_text_field($_POST['cf7p-votes']) : '';
             $cf7p['cf7p_view_result']   =   isset($_POST['cf7p-view-result']) ? sanitize_text_field($_POST['cf7p-view-result']) : '';
             $cf7p['cf7p_set_limit']     =   isset($_POST['cf7p-set-limit']) ? sanitize_text_field($_POST['cf7p-set-limit']) : '';
-            $cf7p['cf7p_limit']         =   (isset($_POST['cf7p-set-limit']) && !empty($_POST['cf7p-set-limit']) && $_POST['cf7p_limit'] > 0) ? sanitize_text_field($_POST['cf7p_limit']): 1;
+            $cf7p['cf7p_limit']         =   (isset($_POST['cf7p-set-limit']) && !empty($_POST['cf7p-set-limit']) && $_POST['cf7p_limit'] > 0) ? sanitize_text_field($_POST['cf7p_limit']) : 1;
             $cf7p['cf7p_limit_per_mail']     =  sanitize_text_field($enable_mail_limit);
             $cf7p['cf7p_email_field']   = sanitize_text_field($mail);
             $cf7p['cf7p_color']         =   (isset($_POST['cf7p_color']) && !empty($_POST['cf7p_color'])) ? sanitize_text_field($_POST['cf7p_color']) : '#2196F3';
             $cf7p['cf7p_backcolor']     =   (isset($_POST['cf7p_backcolor']) && !empty($_POST['cf7p_backcolor'])) ? sanitize_text_field($_POST['cf7p_backcolor']) : '#2196f343';
-            
+
             if (wp_verify_nonce($cf7p_nonce, 'cf7p_option_nonce')) {
                 update_option('cf7p_' . $form_id, $cf7p);
             }

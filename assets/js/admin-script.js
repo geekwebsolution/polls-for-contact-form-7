@@ -2,8 +2,10 @@ jQuery(document).ready(function() {
 
     //make csv of polls data
     jQuery(".cf7-export-csv-btn").on("click",function() {
+
         var formId = jQuery(this).attr("data-form-id");
-        // console.log(form_id);
+        var formName = jQuery(this).attr("data-form-name");
+
         jQuery.ajax({
             url: custom_call.ajaxurl,
             type: "POST",
@@ -12,15 +14,11 @@ jQuery(document).ready(function() {
                 form_id: formId
             },
             success: function(response) {
-
                 // Assuming the response contains the CSV content
-
                 // Create a hidden anchor element to trigger the download
-                
-                // console.log(response);
                 var downloadLink = document.createElement("a");
                 downloadLink.href = "data:text/csv;charset=utf-8," + encodeURIComponent(response);
-                downloadLink.download = "poll_data.csv";
+                downloadLink.download = formName + "-Polls Data.csv";
                 downloadLink.style.display = "none";
                 document.body.appendChild(downloadLink);
                 downloadLink.click();
