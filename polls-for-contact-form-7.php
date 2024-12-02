@@ -11,29 +11,38 @@ if (!defined('ABSPATH')) exit;
 
 define( 'CF7P_BUILD', 1.7 );
 
+if (!defined("CF7P_PLUGIN_DIR"))
+	define("CF7P_PLUGIN_DIR", plugin_basename(__DIR__));
+
+if (!defined("CF7P_PLUGIN_BASENAME"))
+	define("CF7P_PLUGIN_BASENAME", plugin_basename(__FILE__));
+
 if (!defined( 'CF7P_PLUGIN_DIR_PATH' ))
 	define( 'CF7P_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__) );
 
 if (!defined( 'CF7P_PLUGIN_URL' ))
 	define( 'CF7P_PLUGIN_URL', plugins_url() . '/' . basename(dirname(__FILE__)) );
 
+require(CF7P_PLUGIN_DIR_PATH . 'updater/updater.php');
+
 register_activation_hook( __FILE__, 'cf7p_plugin_activate' );
 function cf7p_plugin_activate() {
-    global $wpdb; 
+    global $wpdb;
     $db_table_name = $wpdb->prefix . 'cf7p_options';  // table name
     $charset_collate = $wpdb->get_charset_collate();
-
+    cf7p_updater_activate();
     if($wpdb->get_var( "show tables like '$db_table_name'" ) != $db_table_name ){
         $sql = "CREATE TABLE " . $db_table_name . " (
-            id bigint(20) NOT NULL AUTO_INCREMENT, 
-            form_id bigint(20) NOT NULL, 
-            inputs varchar(900) NOT NULL, 
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            form_id bigint(20) NOT NULL,
+            inputs varchar(900) NOT NULL,
             PRIMARY KEY  (id)
         ) ". $charset_collate .";";
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta( $sql );
     }
 }
+add_action('upgrader_process_complete', 'cf7p_updater_activate'); // remove  transient  on plugin  update
 
 if ( ! function_exists( 'cf7p_install_contact_form_7_admin_notice' ) ) {
 	/**
@@ -67,14 +76,14 @@ add_action( 'plugins_loaded', 'cf7p_self_constructor' );
 $plugin = plugin_basename(__FILE__);
 add_filter( "plugin_action_links_$plugin", 'cf7p_add_plugin_settings_link');
 function cf7p_add_plugin_settings_link( $links ) {
-	$support_link = '<a href="https://geekcodelab.com/contact/" target="_blank" >' . __( 'Support', 'polls-for-contact-form-7' ) . '</a>'; 
+	$support_link = '<a href="https://geekcodelab.com/contact/" target="_blank" >' . __( 'Support', 'polls-for-contact-form-7' ) . '</a>';
 	array_unshift( $links, $support_link );
-	
-	$setting_link = '<a href="'. admin_url('admin.php?page=wpcf7') .'">' . __( 'Settings', 'polls-for-contact-form-7' ) . '</a>'; 
+
+	$setting_link = '<a href="'. admin_url('admin.php?page=wpcf7') .'">' . __( 'Settings', 'polls-for-contact-form-7' ) . '</a>';
 	array_unshift( $links, $setting_link );
 
 	return $links;
-}  
+}
 
 // Admin scripts
 add_action('admin_enqueue_scripts','cf7p_plugin_admin_scripts');
@@ -100,8 +109,8 @@ function cf7p_add_more(){
     $selected_field = sanitize_text_field($_POST['selected_field']);
     $selected_field_arr = explode(",", $selected_field);
     $contact_form = WPCF7_ContactForm::get_instance( $form_id );
-    $form_fields  = $contact_form->scan_form_tags();    
-    $valid_input_type = array('select','checkbox','radio'); 
+    $form_fields  = $contact_form->scan_form_tags();
+    $valid_input_type = array('select','checkbox','radio');
     $valid_field_found = false;
     if(isset($form_fields) && !empty($form_fields)){
         foreach ($form_fields as $key => $value){
@@ -149,12 +158,12 @@ function cf7p_add_more(){
             </td>
         </tr>
      <?php }
-     else{ 
+     else{
          ?>
         <tr class="cf7p-no-field" data-msg="1">
             <td colspan="2"><h3><?php esc_html_e('There is no relevant field found.','polls-for-contact-form-7'); ?></h3></td>
         </tr>
-    <?php 
+    <?php
     }
     die;
 }
@@ -201,7 +210,7 @@ function cf7p_remove(){
         foreach ($results as $key => $value) {
             $row_id = $value->id;
             $data   = unserialize($value->inputs);
-            $single_row_data = []; 
+            $single_row_data = [];
             if(isset($data) && !empty($data)){
                 foreach ($data as $data_key => $data_value) {
                     if ($data_key!=$field_name) {
@@ -209,21 +218,21 @@ function cf7p_remove(){
                     }
                 }
             }
-            $serialize_data = serialize($single_row_data);     
+            $serialize_data = serialize($single_row_data);
             $wpdb->query( $wpdb->prepare( "UPDATE $db_table_name SET inputs = %s WHERE form_id = %d AND id = %d", $serialize_data, $form_id, $row_id ) );
         }
     }
     die;
 }
 
-// Admin --Remove All 
+// Admin --Remove All
 add_action('wp_ajax_cf7p_remove_all','cf7p_remove_all');
 function cf7p_remove_all(){
     $option['cf7p_name'] = $option['cf7p_title'] = $option['cf7p_status'] = '';
     $form_id    =   sanitize_text_field($_POST['form_id']);
     $option     =   get_option('cf7p_'.$form_id);
     update_option('cf7p_'.$form_id,$option);
-    
+
     global $wpdb;
     $cf7p_table  = $wpdb->prefix . 'cf7p_options';
     $wpdb->query( $wpdb->prepare( "DELETE FROM $cf7p_table WHERE form_id = %d", $form_id ) );
